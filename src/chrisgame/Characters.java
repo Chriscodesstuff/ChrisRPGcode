@@ -82,10 +82,12 @@ public class Characters {
     ImageView imageView = new ImageView();
     Rectangle2D standing1 = new Rectangle2D(0,0,16,16);
     Rectangle2D standing2 = new Rectangle2D(16,0,16,16);
+    Rectangle2D standing3 = new Rectangle2D(0,16,16,16);
+    Rectangle2D standing4 = new Rectangle2D(16,16,16,16);
     Rectangle2D moving1 = new Rectangle2D(32,0,16,16);
     Rectangle2D moving2 = new Rectangle2D(48,0,16,16);
-    Rectangle2D moving3 = new Rectangle2D(0,16,16,16);
-    Rectangle2D moving4 = new Rectangle2D(16,16,16,16);
+    Rectangle2D moving3 = new Rectangle2D(32,16,16,16);
+    Rectangle2D moving4 = new Rectangle2D(48,16,16,16);
     
     public ImageView update (int animationTimer){
         //update position
@@ -107,9 +109,17 @@ public class Characters {
             }
         }else{
             if((animationTimer)%100==0){
-                imageView.setViewport(standing1);
+                if(change[0]>=0){
+                    imageView.setViewport(standing1);
+                }else{
+                    imageView.setViewport(standing3);
+                }
             }else if((animationTimer)%50==0){
-                imageView.setViewport(standing2);
+                if(change[0]>=0){
+                    imageView.setViewport(standing2);
+                }else{
+                    imageView.setViewport(standing4);
+                }
             }
         }
         
