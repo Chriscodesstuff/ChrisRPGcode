@@ -48,11 +48,6 @@ public class Characters {
         currentHealth = newCurrentHealth;
     }
     
-    public Characters (int startResourceType, double startResourceBar, double startMaxHealth){
-        resourceType = startResourceType;
-        resourceBar = startResourceBar;
-        maxHealth = startMaxHealth;
-    }
     
     //position values
     
@@ -61,10 +56,9 @@ public class Characters {
         //Arraysn
     double[] dest = {0,0};
     double[] change = {0,0};
-    double[] pos = {0,0};
+    double[] pos = {1000,500};
     double[] temp = {0,0};
-
-    //colors
+    double[] home = {0,0};
     
 
     
@@ -135,6 +129,32 @@ public class Characters {
         return(imageView);
     }
     
-    
-    
+    public Characters (int startResourceType, double startResourceBar, double startMaxHealth, int homeNum){
+        resourceType = startResourceType;
+        resourceBar = startResourceBar;
+        maxHealth = startMaxHealth;
+        switch(homeNum){
+            case 1:
+                home[0] = 500; home[1] = 200;
+                break;
+            case 2:
+                home[0] = 500; home[1] = 450;
+                break;
+            case 3:
+                home[0] = 500; home[1] = 700;
+                break;
+            case 4:
+                home[0] = 1500; home[1] = 200;
+                break;
+            case 5:
+                home[0] = 1500; home[1] = 450;
+                break;
+            case 6:
+                home[0] = 1500; home[1] = 700;
+                break;    
+            default:
+                break;
+        }
+        this.setDest(home[0],home[1]);
+    }
 }

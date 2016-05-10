@@ -22,6 +22,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 /**
@@ -51,6 +53,12 @@ public class ChrisGame extends Application {
             
             boolean doOnce = true;
             int animationTimer = 0;
+            int step = 1;
+            double[] mousePos = {0,0};
+            boolean mouseIsPressed = false;
+            
+            //messages
+            Text text = new Text(900,50, "Select an Ally");
             
             public void handle (long currentTime){
                 //reset canvas
@@ -60,26 +68,55 @@ public class ChrisGame extends Application {
                 
                 //do once
                 if(doOnce){
-                    character.add(new Characters(0,0,0));
-                    character.add(new Characters(0,0,0));
-                    character.add(new Characters(0,0,0));
-                    character.add(new Characters(0,0,0));
-                    character.add(new Characters(0,0,0));
-                    character.add(new Characters(0,0,0));
+                    character.add(new Characters(0,0,0,1));
+                    character.add(new Characters(0,0,0,2));
+                    character.add(new Characters(0,0,0,3));
+                    character.add(new Characters(0,0,0,4));
+                    character.add(new Characters(0,0,0,5));
+                    character.add(new Characters(0,0,0,6));
                     doOnce = false;
                 }
                 root.setOnTouchPressed(new EventHandler<TouchEvent>(){
                     public void handle(TouchEvent me){
                         character.get(1).setDest(me.getTouchPoint().getSceneX(),me.getTouchPoint().getSceneY());
+                        mousePos[0]=me.getTouchPoint().getSceneX();
+                        mousePos[1]=me.getTouchPoint().getSceneY();
+                        mouseIsPressed = true;
                     }
                 });            
                 root.setOnMousePressed(new EventHandler<MouseEvent>(){
                     public void handle(MouseEvent me){
                         character.get(1).setDest(me.getX(),me.getY());
+                        mousePos[0]=me.getX();
+                        mousePos[1]=me.getY();
+                        mouseIsPressed = true;
                     }
                 });
                 
+                
+                
+                switch(step){
+                    case 1:
+                        if(mouseIsPressed){
+                            
+                            mouseIsPressed = false;
+                        }
+                        text.setFont(new Font(20));
+                        root.getChildren().add(text);
+                        break;
+                    default:
+                        break;
+                }
+                
+                
+                //last stuff
+                
                 root.getChildren().add(character.get(1).update(animationTimer));
+                root.getChildren().add(character.get(2).update(animationTimer));
+                root.getChildren().add(character.get(3).update(animationTimer));
+                root.getChildren().add(character.get(4).update(animationTimer));
+                root.getChildren().add(character.get(5).update(animationTimer));
+                root.getChildren().add(character.get(0).update(animationTimer));
                 
                 animationTimer++;
             }

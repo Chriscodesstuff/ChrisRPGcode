@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ChrisGame.jar" size="24278" download="eager" />
+    <jar href="ChrisGame.jar" size="23777" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ChrisGame" >
     <param name="requiredFXVersion" value="2.2+"/>
