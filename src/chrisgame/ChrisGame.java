@@ -30,8 +30,12 @@ import javafx.scene.text.Text;
  *
  * @author Chris
  */
+
+
 public class ChrisGame extends Application {
     
+    
+
     @Override
     public void start(Stage theStage) {
         theStage.setTitle("Chris's totally radical game");
@@ -40,6 +44,7 @@ public class ChrisGame extends Application {
         theStage.setScene(scene1);
         theStage.setWidth(2000);
         theStage.setHeight(1000);
+        
         
         new AnimationTimer(){
             //add colors
@@ -52,10 +57,13 @@ public class ChrisGame extends Application {
             ArrayList<Characters> character = new ArrayList ();
             
             boolean doOnce = true;
+            int selectedCharacter = 0;
             int animationTimer = 0;
             int step = 1;
             double[] mousePos = {0,0};
             boolean mouseIsPressed = false;
+            boolean hasClickedThisTurn = false;
+            Tools tool = new Tools();
             
             //messages
             Text text = new Text(900,50, "Select an Ally");
@@ -74,11 +82,11 @@ public class ChrisGame extends Application {
                     character.add(new Characters(0,0,0,4));
                     character.add(new Characters(0,0,0,5));
                     character.add(new Characters(0,0,0,6));
+                    
                     doOnce = false;
                 }
                 root.setOnTouchPressed(new EventHandler<TouchEvent>(){
                     public void handle(TouchEvent me){
-                        character.get(1).setDest(me.getTouchPoint().getSceneX(),me.getTouchPoint().getSceneY());
                         mousePos[0]=me.getTouchPoint().getSceneX();
                         mousePos[1]=me.getTouchPoint().getSceneY();
                         mouseIsPressed = true;
@@ -86,7 +94,6 @@ public class ChrisGame extends Application {
                 });            
                 root.setOnMousePressed(new EventHandler<MouseEvent>(){
                     public void handle(MouseEvent me){
-                        character.get(1).setDest(me.getX(),me.getY());
                         mousePos[0]=me.getX();
                         mousePos[1]=me.getY();
                         mouseIsPressed = true;
@@ -96,15 +103,33 @@ public class ChrisGame extends Application {
                 
                 
                 switch(step){
-                    case 1:
+                    case 1: //choosing ally to 
                         if(mouseIsPressed){
-                            
-                            mouseIsPressed = false;
+                            hasClickedThisTurn = true;
+                        }else if(hasClickedThisTurn){
+                            if(tool.isWithin(mousePos[0],mousePos[1],0,0,1000,1000/3)){
+                                selectedCharacter = 0;
+                            }else if(tool.isWithin(mousePos[0],mousePos[1],0,1000/3,1000,1000/3)){
+                                selectedCharacter = 1;
+                            }else if(tool.isWithin(mousePos[0],mousePos[1],0,2000/3,1000,1000/3)){
+                                selectedCharacter = 2;
+                            }else if(tool.isWithin(mousePos[0],mousePos[1],1001,0,1000,1000/3)){
+                                selectedCharacter = 3;
+                            }else if(tool.isWithin(mousePos[0],mousePos[1],1001,1000/3,1000,1000/3)){
+                                selectedCharacter = 4;
+                            }else if(tool.isWithin(mousePos[0],mousePos[1],1001,2000/3,1000,1000/3)){
+                                selectedCharacter = 5;
+                            }
+                            hasClickedThisTurn = false;
+                            step = 2;
                         }
                         text.setFont(new Font(20));
                         root.getChildren().add(text);
                         break;
                     default:
+                        if(mouseIsPressed){
+                            character.get(selectedCharacter).setDest(mousePos[0],mousePos[1]);
+                        }
                         break;
                 }
                 
@@ -117,7 +142,7 @@ public class ChrisGame extends Application {
                 root.getChildren().add(character.get(4).update(animationTimer));
                 root.getChildren().add(character.get(5).update(animationTimer));
                 root.getChildren().add(character.get(0).update(animationTimer));
-                
+                mouseIsPressed = false;
                 animationTimer++;
             }
         }.start();
